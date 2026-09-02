@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "title": "H3 recast UltraSharp one 40-frame chunk. Set skip/cap/prefix per chunk."
+  },
+  "1": {
+    "class_type": "VHS_LoadVideo",
+    "inputs": {
+      "video": "REPLACE_INTERP.mp4",
+      "force_rate": 0,
+      "custom_width": 0,
+      "custom_height": 0,
+      "frame_load_cap": 40,
+      "skip_first_frames": 0,
+      "select_every_nth": 1,
+      "format": "None",
+      "unique_id": "1"
+    }
+  },
+  "2": {
+    "class_type": "UpscaleModelLoader",
+    "inputs": {
+      "model_name": "4x-UltraSharp.pth"
+    }
+  },
+  "3": {
+    "class_type": "ImageUpscaleWithModelBatched",
+    "inputs": {
+      "upscale_model": [
+        "2",
+        0
+      ],
+      "images": [
+        "1",
+        0
+      ],
+      "per_batch": 1,
+      "downscale_ratio": 0.54,
+      "downscale_method": "lanczos",
+      "precision": "float16"
+    }
+  },
+  "4": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "3",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 1440,
+      "height": 2560,
+      "crop": "disabled"
+    }
+  },
+  "5": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ],
+      "fps": 72,
+      "bit_depth": 8
+    }
+  },
+  "6": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "5",
+        0
+      ],
+      "filename_prefix": "video/H3_R2V_up_c00",
+      "format": "auto",
+      "codec": "auto"
+    }
+  }
+}
